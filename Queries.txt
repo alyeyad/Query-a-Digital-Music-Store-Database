@@ -1,0 +1,40 @@
+/*Query 1*/
+SELECT g.Name genreName, COUNT(*) genreCount
+	FROM PlaylistTrack pt
+	JOIN Track t
+	ON t.TrackId = pt.TrackId
+	JOIN Genre g
+	ON t.GenreId = g.GenreId
+	GROUP BY 1
+	ORDER BY 2 DESC;
+
+/*Query 2*/
+SELECT mt.Name, COUNT(*) MediaTypeCount
+	FROM MediaType mt
+	JOIN Track t
+	ON t.MediaTypeId = mt.MediaTypeId
+	JOIN InvoiceLine il
+	ON il.TrackId = t.TrackId
+	GROUP BY 1
+	ORDER BY 2 DESC;
+
+/*Query 3*/
+SELECT (CASE WHEN t.Milliseconds BETWEEN 0 AND 60000 THEN '0 - 1 Min'
+WHEN t.Milliseconds BETWEEN 60001 AND 120000 THEN '1 - 2 Mins'
+WHEN t.Milliseconds BETWEEN 120001 AND 180000 THEN '2 - 3 Mins'
+WHEN t.Milliseconds BETWEEN 180001 AND 240000 THEN '3 - 4 Mins'
+WHEN t.Milliseconds BETWEEN 240001 AND 300000 THEN '4 - 5 Mins'
+ELSE '> 5 Mins'
+END) AS LengthBucket
+, CAST(SUM(il.Quantity) AS FLOAT) * 100 / (SELECT SUM(Quantity) FROM InvoiceLine) SalePercentage
+	FROM Track t
+	JOIN InvoiceLine il
+	ON t.TrackId = il.TrackId
+	GROUP BY 1;
+
+/*Query 4*/
+SELECT strftime('%m', i.InvoiceDate) Month, SUM(il.Quantity) TotalQuantity
+	FROM Invoice i
+	JOIN InvoiceLine il
+	ON i.InvoiceId = il.InvoiceId
+	GROUP BY 1;
