@@ -1,7 +1,7 @@
 # Query a Digital Music Store Database
 
 ## Overview
-In this project, you will query the Chinook Database. The Chinook Database holds information about a music store. For this project, you will be assisting the Chinook team with understanding the media in their store, their customers and employees, and their invoice information.
+This project queries the Chinook Database. The Chinook Database holds information about a music store. This project assists the Chinook team with understanding the media in their store, their customers and employees, and their invoice information by answering key question regarding the sales of digital music files at the store.
 
 ## Database ERD
 ![DB ERD](Images/ERD.png)
